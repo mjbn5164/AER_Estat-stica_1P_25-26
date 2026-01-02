@@ -1,0 +1,7 @@
+{
+  "name": "Neon Grade Analytics Dashboard",
+  "description": "A futuristic, neon-themed dashboard for student grade analysis. Supports PDF, Image, and Google Sheets data extraction using Gemini AI to provide deep insights, statistics, and creative visualizations.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
