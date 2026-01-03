@@ -134,7 +134,7 @@ const SubjectCardContent: React.FC<{ s: SubjectStats, isFocused?: boolean, onExp
         <span className={`text-red-400 font-mono font-bold ${isFocused ? 'text-[40px]' : ''}`}>{formatDecimal(s.percentageBelowTen)}%</span>
       </div>
     </div>
-    <div className={`${isFocused ? 'h-[400px]' : 'h-40'} w-full mt-auto relative`}>
+    <div className={`${isFocused ? 'h-[400px]' : 'h-64'} w-full mt-auto relative`}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={s.distribution} margin={{ top: 35, right: 10, left: -20, bottom: 25 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
