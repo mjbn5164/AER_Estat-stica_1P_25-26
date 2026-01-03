@@ -475,9 +475,11 @@ const App: React.FC = () => {
               <StatCard title="Disciplina Com Média Mais Alta" value={bestSubject?.avg || 0} subtitle={bestSubject?.subject || "N/A"} icon={<Star />} color="red" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Sucesso/Insucesso */}
-              <div className="lg:col-span-1 glass-panel p-6 rounded-3xl relative overflow-hidden h-[450px] shadow-2xl border-t border-white/5">
+           {/* Alterámos de GRID para FLEX para controlar as larguras exatas (30%, 35%, 25%) */}
+            <div className="flex flex-col lg:flex-row gap-4 justify-center items-stretch">
+              
+              {/* ESQUERDA: Sucesso/Insucesso (30% do espaço) */}
+              <div className="w-full lg:w-[30%] glass-panel p-6 rounded-3xl relative overflow-hidden h-[450px] shadow-2xl border-t border-white/5">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xs font-orbitron font-bold uppercase text-white">Sucesso/Insucesso</h2>
                   <button 
@@ -490,8 +492,8 @@ const App: React.FC = () => {
                 {renderSuccessFailureChart()}
               </div>
               
-              {/* Top 3 Negativas - Mesma área (col-span-1) */}
-              <div className="lg:col-span-1 glass-panel p-6 rounded-3xl h-[450px] shadow-2xl border-t border-white/5 relative">
+              {/* MEIO: Top 3 Negativas (35% do espaço - O maior) */}
+              <div className="w-full lg:w-[35%] glass-panel p-6 rounded-3xl h-[450px] shadow-2xl border-t border-white/5 relative">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xs font-orbitron font-bold uppercase text-white">Top 3 Disciplinas com Maior % de Negativas</h2>
                   <button 
@@ -504,8 +506,8 @@ const App: React.FC = () => {
                 {renderTopNegativeChart()}
               </div>
 
-              {/* Coluna de Gauges */}
-              <div className="lg:col-span-1 flex flex-col gap-6 h-[450px]">
+              {/* DIREITA: Coluna de Gauges (25% do espaço) */}
+              <div className="w-full lg:w-[25%] flex flex-col gap-4 h-[450px]">
                 {/* Gauge de Média Mais Baixa */}
                 <div className="glass-panel p-4 rounded-3xl flex-1 shadow-2xl border-t border-white/5 relative flex flex-col min-h-0">
                   <div className="flex justify-between items-center mb-2">
