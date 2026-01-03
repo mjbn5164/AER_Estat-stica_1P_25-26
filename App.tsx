@@ -25,7 +25,7 @@ import { StudentData, SubjectKey, SUBJECT_LABELS, SubjectStats, GradeDistributio
 import { extractDataFromSheetsText } from './services/geminiService';
 
 // PASSO 1: DEFINIR A CHAVE MESTRA FIXA
-const MASTER_API_KEY = "AIzaSyCJG66RHmLgC68ykM6Pqeoh7MflsOaL_wU";
+const MASTER_API_KEY = import.meta.env.VITE_API_KEY || "";
 
 /**
  * Utilitário de conversão numérica para garantir integridade.
