@@ -2,14 +2,14 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { StudentData } from "../types";
 
 // A TUA CHAVE (Mantém-se a mesma)
-const GEN_AI_KEY = "AIzaSyBb7sKKicuLBwCYCEEwy4r_HIeVjCg3FmI";
+const GEN_AI_KEY = "AIzaSyDDoZEzFgIQJ9moUmT-7-L0OPvbLt2qbk0";
 
 export const extractDataFromSheetsText = async (text: string, apiKey: string): Promise<StudentData[]> => {
     // Inicializa a biblioteca
     const genAI = new GoogleGenerativeAI(GEN_AI_KEY);
     
     // ATENÇÃO: Usamos agora o "gemini-2.0-flash" que está na tua lista!
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite-preview-02-05" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
       You are a data extraction assistant.
