@@ -141,7 +141,8 @@ const SubjectCardContent: React.FC<{ s: SubjectStats, isFocused?: boolean, onExp
           <XAxis dataKey="range" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: isFocused ? 20 : 10 }} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
           {/* barSize={40} faz o efeito 'bloco' que queres. radius={[8,8,0,0]} arredonda só o topo */}
-          <Bar dataKey="chartValue" radius={[8, 8, 0, 0]} barSize={45}>
+          {/* Se estiver expandido (isFocused), usa 80px. Se não, usa 45px. Mantém o topo arredondado. */}  
+       <Bar dataKey="chartValue" radius={[8, 8, 0, 0]} barSize={isFocused ? 80 : 45}>
             <LabelList content={<CustomBarLabel fontSize={isFocused ? 20 : 12} valueKey="count" />} />
             {s.distribution.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
