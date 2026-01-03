@@ -136,11 +136,12 @@ const SubjectCardContent: React.FC<{ s: SubjectStats, isFocused?: boolean, onExp
     </div>
     <div className={`${isFocused ? 'h-[400px]' : 'h-40'} w-full mt-auto relative`}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={s.distribution} margin={{ top: 35, right: 10, left: -20, bottom: 25 }}>
+        <BarChart data={s.distribution} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
           <XAxis dataKey="range" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: isFocused ? 20 : 10 }} />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-          <Bar dataKey="chartValue" radius={[4, 4, 4, 4]}>
+          {/* barSize={40} faz o efeito 'bloco' que queres. radius={[8,8,0,0]} arredonda só o topo */}
+          <Bar dataKey="chartValue" radius={[8, 8, 0, 0]} barSize={45}>
             <LabelList content={<CustomBarLabel fontSize={isFocused ? 20 : 12} valueKey="count" />} />
             {s.distribution.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
