@@ -9,7 +9,7 @@ export const extractDataFromSheetsText = async (text: string, apiKey: string): P
     const genAI = new GoogleGenerativeAI(GEN_AI_KEY);
     
     // ATENÇÃO: Usamos agora o "gemini-2.0-flash" que está na tua lista!
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite-preview-02-05" });
 
     const prompt = `
       You are a data extraction assistant.
