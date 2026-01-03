@@ -189,17 +189,59 @@ const App: React.FC = () => {
     }
   };
 
+  // --- INÍCIO DA NOVA FUNÇÃO SEGURA ---
   const handleLoadSheet = async (sheetName: string) => {
     setLoading(true);
     setSelectedSheet(sheetName);
     try {
+      // 1. Buscar dados ao Google Sheets (usa a chave MASTER_API_KEY que é segura para Sheets)
       const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/'${sheetName}'?key=${MASTER_API_KEY}`);
+      
+      if (!response.ok) {
+        throw new Error("Falha ao ler o Google Sheets. Verifique as permissões.");
+      }
+      
       const result = await response.json();
       const rows = result.values;
+
       if (rows && rows.length > 0) {
+        // Transforma as linhas em texto simples para a IA ler
         const textData = rows.map((r: any) => r.join(', ')).join('\n');
-        const rawExtracted = await extractDataFromSheetsText(textData, MASTER_API_KEY);
-        const validatedData: StudentData[] = rawExtracted.map((student, index) => ({
+
+        // 2. Preparar o pedido para o nosso "Porteiro" (Backend)
+        // Nota: NÃO usamos chaves de API aqui. O segredo está guardado no servidor.
+        const prompt = `
+          Analise a seguinte pauta escolar e extraia os dados.
+          Retorne APENAS um JSON válido (array de objetos).
+          Campos obrigatórios: numero (number), aluno (string), portugues, ingles, matematica, psicologia, quimica, educacaoFisica, emrc (numbers).
+          Se a nota não existir ou for "F", assuma 0.
+          
+          DADOS:
+          ${textData}
+        `;
+
+        // 3. Chamar a nossa API segura (/api/gemini)
+        const aiResponse = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: prompt }),
+        });
+
+        const aiData = await aiResponse.json();
+
+        if (aiData.error) {
+          throw new Error(aiData.error);
+        }
+
+        // 4. Limpar e processar a resposta da IA
+        let cleanText = aiData.candidates[0].content.parts[0].text;
+        // Remove formatações de markdown se a IA as incluir
+        cleanText = cleanText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        const rawExtracted = JSON.parse(cleanText);
+
+        // 5. Validar os dados para garantir que os gráficos não crasham
+        const validatedData: StudentData[] = rawExtracted.map((student: any, index: number) => ({
           numero: safeParseNumber(student.numero, `Nº`),
           aluno: String(student.aluno || `Aluno ${index + 1}`),
           portugues: safeParseNumber(student.portugues, `Port`),
@@ -210,16 +252,18 @@ const App: React.FC = () => {
           educacaoFisica: safeParseNumber(student.educacaoFisica, `EF`),
           emrc: safeParseNumber(student.emrc, `EMRC`),
         }));
+
         setData(validatedData);
       }
     } catch (err: any) {
       console.error(err);
-      alert("Erro ao ler dados da aba.");
+      alert("Erro ao processar dados: " + (err.message || "Erro desconhecido"));
     } finally {
       setLoading(false);
       setActiveTab('table'); 
     }
   };
+  // --- FIM DA NOVA FUNÇÃO ---
 
   const handleDisconnect = () => {
     localStorage.removeItem('google_sheet_id');
