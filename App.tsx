@@ -22,7 +22,6 @@ import {
   Maximize
 } from 'lucide-react';
 import { StudentData, SubjectKey, SUBJECT_LABELS, SubjectStats, GradeDistribution, SheetInfo } from './types';
-import { extractDataFromSheetsText } from './services/geminiService';
 
 // PASSO 1: DEFINIR A CHAVE MESTRA FIXA
 const MASTER_API_KEY = import.meta.env.VITE_API_KEY || "";
