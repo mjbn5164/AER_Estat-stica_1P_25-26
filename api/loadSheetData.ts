@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { google } from 'googleapis';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Permissões CORS (para o frontend conseguir chamar)
